@@ -1,27 +1,21 @@
-  const http=require('http');
+const express=require('express');
+const bodyParser=require('body-Parser');
 
- const express=require('express');
+const app=express();
 
-// console.log(routes.someText);
-const app=express()
+app.use(bodyParser.urlencoded({extented:false}))
 
-const middleware1 = (req, res, next)=>{
-  //execute some code
-  next()  // pass execution to the next middleware
-}
-const middleware2 = (req, res, next)=>{
-  //execute some code
-}
+app.use('/add-prodect',(req,res,next)=>{
+res.send('<form action="/prodect" method="POST"><input type="text" name="title"><button type="Submit">Add Prodect</button></from>');
 
-app.get("/", middleware1, middleware2);
+});
 
-// OR
-app.get("/", function(req, res, next){
-  // first middleware
-  next()  //Pass execution to the next middleware
-},
-function(){
-  // second middleware
-})
-  
+app.use('/prodect',(req,res,next)=>{
+  console.log(req.body);
+  res.redirect('/');
+});
+
+app.use('/',(req,res,next)=>{
+   res.send('<h1>Hello from Express!</h1>');
+});
 app.listen(3000);
